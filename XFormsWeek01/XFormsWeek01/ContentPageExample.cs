@@ -6,7 +6,7 @@ namespace XFormsWeek01
 {
     public class ContentPageExample : ContentPage
     {
-        string version = "Version 2017.03.14.1544";
+        string version = "Version 2017.03.20.1044\njames n romach";
         StackLayout thirdLayout = new StackLayout();
 
         //
@@ -166,8 +166,8 @@ namespace XFormsWeek01
 
             Content = new StackLayout
             {
-                Padding = new Thickness(20),    // around ??
-                Margin = new Thickness(50,40,30,20),     // around outside
+                Padding = new Thickness(20, 20, 20, 20),    // around outside
+                Margin = new Thickness(50,50,50,50),        // around control
                 Children =
                 {
                     new Label { Text = version, HorizontalTextAlignment = TextAlignment.Center,
@@ -182,7 +182,7 @@ namespace XFormsWeek01
                     username,
                     passWord,
                     firstButton,
-                    secondLayout,
+                    secondLayout
                 },
 
                 HeightRequest = 1000,
@@ -190,16 +190,15 @@ namespace XFormsWeek01
             };
 
 
-            ScrollView scrollView = new ScrollView
+            ScrollView firstScrollView = new ScrollView
             {
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Content = Content
             };
 
-            // Accomodate iPhone status bar.
-            this.Padding = new Thickness(10, Device.OnPlatform(20, 30, 40), 10, 5);
+            Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
-            this.Content = scrollView;
+            Content = firstScrollView;
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
