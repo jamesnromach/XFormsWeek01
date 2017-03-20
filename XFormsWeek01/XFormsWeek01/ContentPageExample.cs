@@ -7,6 +7,7 @@ namespace XFormsWeek01
     public class ContentPageExample : ContentPage
     {
         string version = "Version 2017.03.14.1544";
+        StackLayout thirdLayout = new StackLayout();
 
         //
         // Elements
@@ -22,7 +23,7 @@ namespace XFormsWeek01
             VerticalOptions = LayoutOptions.EndAndExpand,
         };
 
-        readonly Label largeLabel = new Label
+        public readonly Label largeLabel = new Label
         {
             Text = "Label",
             FontSize = 40,
@@ -130,13 +131,15 @@ namespace XFormsWeek01
 
         StackLayout secondLayout = new StackLayout
         {
-            Children = { 
-            new Label { Text = "Second Layout", HorizontalTextAlignment = TextAlignment.Center,
-                                FontSize = 40,
-                                TextColor = Color.Fuchsia,
-                                VerticalTextAlignment = TextAlignment.End,
-                                MinimumHeightRequest = 400},
-           
+            Children =
+            { 
+            new Label
+                { Text = "Second Layout", HorizontalTextAlignment = TextAlignment.Center,
+                        FontSize = 40,
+                        TextColor = Color.Fuchsia,
+                        VerticalTextAlignment = TextAlignment.End,
+                        MinimumHeightRequest = 400
+                }
             }
         };
         
@@ -160,11 +163,13 @@ namespace XFormsWeek01
 
             BackgroundColor = Color.Yellow;
 
+
             Content = new StackLayout
             {
                 Padding = new Thickness(20),    // around ??
                 Margin = new Thickness(50,40,30,20),     // around outside
-                Children = {
+                Children =
+                {
                     new Label { Text = version, HorizontalTextAlignment = TextAlignment.Center,
                                 FontSize = 40,
                                 TextColor = Color.Purple,
@@ -177,11 +182,24 @@ namespace XFormsWeek01
                     username,
                     passWord,
                     firstButton,
-                    secondLayout
+                    secondLayout,
                 },
-                HeightRequest = 1500,
+
+                HeightRequest = 1000,
                 BackgroundColor = Color.Lime
             };
+
+
+            ScrollView scrollView = new ScrollView
+            {
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                Content = Content
+            };
+
+            // Accomodate iPhone status bar.
+            this.Padding = new Thickness(10, Device.OnPlatform(20, 30, 40), 10, 5);
+
+            this.Content = scrollView;
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
