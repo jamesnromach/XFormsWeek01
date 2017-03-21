@@ -6,7 +6,7 @@ namespace XFormsWeek01
     {
         public App()
         {
-            MainPage = new ContentPageExample();
+            MainPage =  new DeepIntoText();
         }
 
         protected override void OnStart()
