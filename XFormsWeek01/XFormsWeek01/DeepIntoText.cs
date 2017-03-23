@@ -15,7 +15,7 @@ namespace XFormsWeek01
 {
     public class DeepIntoText : ContentPage
     {
-        string version = "  Version 2017.03.21.0955\n  james n romach";
+        string version = "  Version 2017.03.21.1512\n  james n romach";
         string layerTextString = @"This multi-line label contains red italic, yellow bold, and regular blue text.";
         FormattedString outputFormattedString = new FormattedString();
 
@@ -51,21 +51,23 @@ namespace XFormsWeek01
             //spanLayout.Children.Add(new Label { FormattedText = fstring });
             ////this.Content = layout;
 
-
+            
             StackLayout firstLayout = new StackLayout
             {
                 Padding = new Thickness(10),
                 BackgroundColor = Color.Green,
-                
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.Center,
             };
-
+                
             Title = "thsi is a titile";
 
             List<Span> substringList  = GetStringElements(layerTextString);
-
+            outputFormattedString.Spans.Add(new Span {Text = " "});
             foreach (var element in substringList)
             {
                 string switchElement = element.Text;
+
                 switch (element.Text)
                 //switch (switchElement)
                 {
@@ -75,29 +77,35 @@ namespace XFormsWeek01
                         element.FontAttributes = FontAttributes.Bold;
                         element.FontAttributes = FontAttributes.Italic;
                         element.ForegroundColor = Color.Red;
-                        element.FontSize = MinimumHeightRequest;
+                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout) - 20 ;
+                        if (element.Text == "italic,") { element.Text += "\n"; }
                         break;
                     }
                     case "yellow":
                     case "bold,":
                     {
                         element.ForegroundColor = Color.Yellow;
-                        element.FontSize = 20;
+                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout) + 20;
+                        if (element.Text == "bold,"){element.Text += "\n";}
                         break;
                     }
                     case "blue":
                     {
                         element.ForegroundColor = Color.Blue;
+                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout);
                         break;
                     }
-
                 }
 
-                //outputFormattedString.Spans.Add(new Span { Text = element.Text + " " });
                 element.Text += " ";
                 outputFormattedString.Spans.Add(element);
             }
-            firstLayout.Children.Add(new Label { FormattedText = outputFormattedString });
+
+            firstLayout.Children.Add(new Label
+            {
+                FormattedText = outputFormattedString,
+                FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout),
+            });
 
             var x = 1; // breakpoint statement - garbage
 
