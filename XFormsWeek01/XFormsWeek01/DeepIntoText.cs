@@ -18,13 +18,11 @@ namespace XFormsWeek01
         //
         // Set common items
         //
-        string version = "Version 2017.03.23.1258\njames n romach";
-        string layerTextString = @"This multi-line label contains red italic, yellow bold, and regular blue text.";
-        FormattedString outputFormattedString = new FormattedString();
-
+        string version = "Version 2017.03.23.1432\njames n romach";
 
         //
-        // Convert a string to a span list
+        // Convert a string to a span list.
+        // Each span is a substring split on a blank.
         //
         List<Span> GetStringElements(string inputString)
         {
@@ -42,6 +40,9 @@ namespace XFormsWeek01
         //
         public DeepIntoText()
         {
+            string layerTextString = @"This multi-line label contains red italic, yellow bold, and regular blue text.";
+            FormattedString outputFormattedString = new FormattedString();
+
             //
             // Set the desired label font size
             //
@@ -61,8 +62,7 @@ namespace XFormsWeek01
             firstLayout.BackgroundColor = Color.White;
 
             //
-            // Convert a string to a span list.
-            // Each span is a substring split on a blank.
+            // Build the formated string from the span list
             //
             List<Span> substringList = GetStringElements(layerTextString);
             outputFormattedString.Spans.Add(new Span {Text = " "});
@@ -127,12 +127,18 @@ namespace XFormsWeek01
                 outputFormattedString.Spans.Add(element);
             }
 
+            //
+            // Add the formated string to the label
+            //
             firstLayout.Children.Add(new Label
             {
                 FormattedText = outputFormattedString,
                 FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
             });
 
+            //
+            // Create the version label
+            //
             Label versionLabel = new Label
             {
                 FormattedText = new FormattedString(),
@@ -144,6 +150,9 @@ namespace XFormsWeek01
                 VerticalTextAlignment = TextAlignment.Center,
             };
 
+            //
+            // Create the page
+            //
             Content = new StackLayout
             {
                 Padding = new Thickness(10),
