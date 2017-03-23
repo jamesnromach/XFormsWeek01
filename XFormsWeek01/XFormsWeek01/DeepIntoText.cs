@@ -15,9 +15,13 @@ namespace XFormsWeek01
 {
     public class DeepIntoText : ContentPage
     {
-        string version = "  Version 2017.03.21.1512\n  james n romach";
+        //
+        // Set common items
+        //
+        string version = "Version 2017.03.23.1258\njames n romach";
         string layerTextString = @"This multi-line label contains red italic, yellow bold, and regular blue text.";
         FormattedString outputFormattedString = new FormattedString();
+
 
         //
         // Convert a string to a span list
@@ -38,6 +42,8 @@ namespace XFormsWeek01
         //
         public DeepIntoText()
         {
+            var labelFontSize = 40; // Set the desired label font size
+
             //StackLayout spanLayout = new StackLayout { Padding = new Thickness(5, 10) };
             //Title = "Label Demo - Code";
             //spanLayout.Children.Add(new Label { TextColor = Color.FromHex("#77d065"), Text = "This is a green label." });
@@ -51,7 +57,10 @@ namespace XFormsWeek01
             //spanLayout.Children.Add(new Label { FormattedText = fstring });
             ////this.Content = layout;
 
-            
+
+            //
+            // Stack layout to hold the test label
+            //
             StackLayout firstLayout = new StackLayout
             {
                 Padding = new Thickness(10),
@@ -59,34 +68,45 @@ namespace XFormsWeek01
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
             };
-                
-            Title = "thsi is a titile";
 
-            List<Span> substringList  = GetStringElements(layerTextString);
+            //
+            // Convert a string to a span list.
+            // Each span is a substring split on a blank.
+            //
+            List<Span> substringList = GetStringElements(layerTextString);
             outputFormattedString.Spans.Add(new Span {Text = " "});
+            var defaultFontSize = Device.GetNamedSize(NamedSize.Default, firstLayout);
             foreach (var element in substringList)
             {
-                string switchElement = element.Text;
-
                 switch (element.Text)
-                //switch (switchElement)
                 {
+                    case "The":
+                    {
+                        element.Text = "\t" + element.Text;
+                        break;
+                    }
                     case "italic,":
                     case "red":
                     {
                         element.FontAttributes = FontAttributes.Bold;
                         element.FontAttributes = FontAttributes.Italic;
                         element.ForegroundColor = Color.Red;
-                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout) - 20 ;
-                        if (element.Text == "italic,") { element.Text += "\n"; }
+                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout) - (element.FontSize / 2);
+                        if (element.Text == "italic,")
+                        {
+                            element.Text += "\n";
+                        }
                         break;
                     }
                     case "yellow":
                     case "bold,":
                     {
                         element.ForegroundColor = Color.Yellow;
-                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout) + 20;
-                        if (element.Text == "bold,"){element.Text += "\n";}
+                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout) + (element.FontSize / 2);
+                        if (element.Text == "bold,")
+                        {
+                            element.Text += "\n";
+                        }
                         break;
                     }
                     case "blue":
@@ -95,35 +115,46 @@ namespace XFormsWeek01
                         element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout);
                         break;
                     }
+                    case "label":
+                    {
+                        element.Text += "\n";
+                        break;
+                    }
+                    default:
+                    {
+                        element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout);
+                        break;
+                    }
                 }
 
                 element.Text += " ";
+                element.FontSize += labelFontSize - Device.GetNamedSize(NamedSize.Default, firstLayout);
                 outputFormattedString.Spans.Add(element);
             }
 
             firstLayout.Children.Add(new Label
             {
                 FormattedText = outputFormattedString,
-                FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
             });
 
             var x = 1; // breakpoint statement - garbage
 
             Content = new StackLayout
             {
-                Padding = new Thickness(10), BackgroundColor = Color.Black,
-                
+                Padding = new Thickness(10),
+                BackgroundColor = Color.Black,
                 Children =
                 {
                     new Label
                     {
-                        FormattedText  = new FormattedString(),
+                        FormattedText = new FormattedString(),
                         Text = version,
-                                HorizontalTextAlignment = TextAlignment.Start,
-                                FontSize = 40,
-                                TextColor = Color.Yellow,
-                                BackgroundColor = Color.Fuchsia,
-                                VerticalTextAlignment = TextAlignment.Center,
+                        HorizontalTextAlignment = TextAlignment.Start,
+                        FontSize = 40,
+                        TextColor = Color.Yellow,
+                        BackgroundColor = Color.Fuchsia,
+                        VerticalTextAlignment = TextAlignment.Center,
                     },
                     firstLayout
                 }
