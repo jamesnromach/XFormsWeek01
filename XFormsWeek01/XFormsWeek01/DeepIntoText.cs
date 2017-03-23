@@ -1,13 +1,13 @@
-﻿////o Display the following line of text vertically centered and horizontally left aligned:
-////  “This multi-line label contains red italic, yellow bold, and regular blue text.”
-////o Indent the first line. (Hint: Unicode for em space)
-////o Make the text “red italic” both red and italic.Make it smaller than normal.
-////o Make the text “yellow bold” both yellow and bold. Make it bigger than normal.
-////o Make the text “blue” blue.
-////o Make the entire label have a white background color, but be sure the background of the app remains black.
-////o Format the text by creating a static method in your page that takes in a single string and returns a List<Span>.
+﻿//o Display the following line of text vertically centered and horizontally left aligned:
+//    “This multi-line label contains red italic, yellow bold, and regular blue text.”
+//o Put a line break after “label”, “italic,” and “bold,”.
+//o Indent the first line. (Hint: Unicode for em space)
+//o Make the text “red italic” both red and italic.Make it smaller than normal.
+//o Make the text “yellow bold” both yellow and bold. Make it bigger than normal.
+//o Make the text “blue” blue.
+//o Make the entire label have a white background color, but be sure the background of the app remains black.
+//o Format the text by creating a static method in your page that takes in a single string and returns a List<Span>.
 
-using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -42,21 +42,10 @@ namespace XFormsWeek01
         //
         public DeepIntoText()
         {
-            var labelFontSize = 40; // Set the desired label font size
-
-            //StackLayout spanLayout = new StackLayout { Padding = new Thickness(5, 10) };
-            //Title = "Label Demo - Code";
-            //spanLayout.Children.Add(new Label { TextColor = Color.FromHex("#77d065"), Text = "This is a green label." });
-            //spanLayout.Children.Add(new Label { Text = "This is a default, non-customized label." });
-            //spanLayout.Children.Add(new Label { Text = "This label has a font size of 30.", FontSize = 30 });
-            //spanLayout.Children.Add(new Label { Text = "This is bold text.", FontAttributes = FontAttributes.Bold });
-            //var fstring = new FormattedString();
-            //fstring.Spans.Add(new Span { Text = "Red bold ", ForegroundColor = Color.Red, FontAttributes = FontAttributes.Bold });
-            //fstring.Spans.Add(new Span { Text = "Default" });
-            //fstring.Spans.Add(new Span { Text = "italic small", FontAttributes = FontAttributes.Italic, FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)) });
-            //spanLayout.Children.Add(new Label { FormattedText = fstring });
-            ////this.Content = layout;
-
+            //
+            // Set the desired label font size
+            //
+            var labelFontSize = 40;
 
             //
             // Stack layout to hold the test label
@@ -69,6 +58,8 @@ namespace XFormsWeek01
                 HorizontalOptions = LayoutOptions.Center,
             };
 
+            firstLayout.BackgroundColor = Color.White;
+
             //
             // Convert a string to a span list.
             // Each span is a substring split on a blank.
@@ -80,11 +71,12 @@ namespace XFormsWeek01
             {
                 switch (element.Text)
                 {
-                    case "The":
-                    {
-                        element.Text = "\t" + element.Text;
-                        break;
-                    }
+                    case "This":
+                        {
+                            element.ForegroundColor = Color.Black;
+                            element.Text = "   " + element.Text;
+                            break;
+                        }
                     case "italic,":
                     case "red":
                     {
@@ -117,11 +109,13 @@ namespace XFormsWeek01
                     }
                     case "label":
                     {
+                        element.ForegroundColor = Color.Black;
                         element.Text += "\n";
                         break;
                     }
                     default:
                     {
+                        element.ForegroundColor = Color.Black;
                         element.FontSize = Device.GetNamedSize(NamedSize.Default, firstLayout);
                         break;
                     }
@@ -129,6 +123,7 @@ namespace XFormsWeek01
 
                 element.Text += " ";
                 element.FontSize += labelFontSize - Device.GetNamedSize(NamedSize.Default, firstLayout);
+
                 outputFormattedString.Spans.Add(element);
             }
 
@@ -138,7 +133,16 @@ namespace XFormsWeek01
                 FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
             });
 
-            var x = 1; // breakpoint statement - garbage
+            Label versionLabel = new Label
+            {
+                FormattedText = new FormattedString(),
+                Text = version,
+                HorizontalTextAlignment = TextAlignment.Center,
+                FontSize = 40,
+                TextColor = Color.Yellow,
+                BackgroundColor = Color.Fuchsia,
+                VerticalTextAlignment = TextAlignment.Center,
+            };
 
             Content = new StackLayout
             {
@@ -146,16 +150,7 @@ namespace XFormsWeek01
                 BackgroundColor = Color.Black,
                 Children =
                 {
-                    new Label
-                    {
-                        FormattedText = new FormattedString(),
-                        Text = version,
-                        HorizontalTextAlignment = TextAlignment.Start,
-                        FontSize = 40,
-                        TextColor = Color.Yellow,
-                        BackgroundColor = Color.Fuchsia,
-                        VerticalTextAlignment = TextAlignment.Center,
-                    },
+                    versionLabel,
                     firstLayout
                 }
             };
